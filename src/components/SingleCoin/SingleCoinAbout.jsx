@@ -14,7 +14,9 @@ const SingleCoinAbout = () => {
       <h3>About</h3>
       <p className='desc' dangerouslySetInnerHTML={{ __html: `${desc}` }}></p>
       <p className='site-address'>
-        <a href={homepage[0]}>{homepage[0]}</a>
+        <a href={homepage[0]} target='_blank' rel='noreferrer'>
+          {homepage[0]}
+        </a>
       </p>
     </StyledSingleCoinAbout>
   );

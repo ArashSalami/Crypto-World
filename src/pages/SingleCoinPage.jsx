@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getSingleCoin } from "../store/features/mainSlice";
@@ -14,11 +14,22 @@ const SingleCoinPage = () => {
   const { isLoading } = useSelector((state) => state.main);
   const { coinId } = useParams();
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     dispatch(getSingleCoin(coinId));
+    setLoading(false);
   }, [dispatch, coinId]);
 
-  if (isLoading) {
+  useEffect(() => {
+    const interval = setInterval(() => {
+      dispatch(getSingleCoin());
+    }, 30000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [dispatch]);
+  if (isLoading && loading) {
     return <Loading />;
   }
 

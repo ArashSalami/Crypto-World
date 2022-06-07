@@ -25,7 +25,7 @@ const Home = () => {
       if (coinName === "") {
         dispatch(getCoins());
       }
-    }, 5000);
+    }, 30000);
     return () => {
       clearInterval(interval);
     };
