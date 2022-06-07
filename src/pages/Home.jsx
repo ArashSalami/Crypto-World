@@ -30,7 +30,6 @@ const Home = () => {
       clearInterval(interval);
     };
   }, [dispatch, coinName]);
-  console.log("hellow");
   return (
     <>
       {loading && isLoading ? (

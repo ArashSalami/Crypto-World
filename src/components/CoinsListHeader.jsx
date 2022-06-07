@@ -34,7 +34,7 @@ const CoinsListHeader = () => {
   }, []);
 
   const clickHandler = (e) => {
-    let value = e.target.name;
+    let value = e.currentTarget.name;
 
     setValue((prevState, valueName) => {
       valueName = value;
@@ -42,7 +42,7 @@ const CoinsListHeader = () => {
     });
     dispatch(
       updateSort({
-        name: e.target.name,
+        name: e.currentTarget.name,
         value: values.valueName || false,
       })
     );

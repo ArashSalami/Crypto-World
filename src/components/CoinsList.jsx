@@ -8,16 +8,24 @@ import { PaginationButton, PaginationPrevNextButton } from "./Buttons";
 import { PaginationBtnsContainer } from "./Containers";
 
 const CoinsList = () => {
-  const { filteredCoins } = useSelector((state) => state.main);
+  const {
+    filteredCoins,
+    coins: allCoins,
+    filters: { coinName },
+  } = useSelector((state) => state.main);
   const { isLoading } = useSelector((state) => state.main);
-  const [coins, setCoins] = useState([]);
+  const [coins = [], setCoins] = useState([]);
   const [page, setPage] = useState(0);
-
   useEffect(() => {
-    let newCoins = paginate(filteredCoins);
-    setCoins(newCoins[page]);
-  }, [filteredCoins, page]);
-  let arrayOfPages = paginate(filteredCoins);
+    if (coinName !== "") {
+      setCoins(paginate(filteredCoins)[page]);
+    }
+    if (coinName === "") {
+      setCoins(paginate(filteredCoins)[page]);
+    }
+  }, [page, filteredCoins, coinName]);
+
+  let arrayOfPages = paginate(allCoins);
 
   const handlePage = (index) => {
     setPage(index);
@@ -54,34 +62,32 @@ const CoinsList = () => {
     <>
       <StyledCoinsList>
         <CoinsListHeader />
-        {/* {filteredCoins.map((coin, index) => {
-        return <CoinItem coin={coin} key={index} />;
-      })} */}
-        {coins.length > 0 &&
-          coins.map((coin, index) => {
-            return <CoinItem coin={coin} key={index} />;
-          })}
-      </StyledCoinsList>
-      <PaginationBtnsContainer>
-        <PaginationPrevNextButton onClick={prevPage}>
-          Prev
-        </PaginationPrevNextButton>
-        {arrayOfPages.map((item, index) => {
-          return (
-            <PaginationButton
-              index={index}
-              page={page}
-              onClick={() => handlePage(index)}
-              key={index}
-            >
-              {index + 1}
-            </PaginationButton>
-          );
+        {coins.map((coin, index) => {
+          return <CoinItem coin={coin} key={index} />;
         })}
-        <PaginationPrevNextButton onClick={nextPage}>
-          Next
-        </PaginationPrevNextButton>
-      </PaginationBtnsContainer>
+      </StyledCoinsList>
+      {coinName === "" && (
+        <PaginationBtnsContainer>
+          <PaginationPrevNextButton onClick={prevPage}>
+            Prev
+          </PaginationPrevNextButton>
+          {arrayOfPages.map((item, index) => {
+            return (
+              <PaginationButton
+                index={index}
+                page={page}
+                onClick={() => handlePage(index)}
+                key={index}
+              >
+                {index + 1}
+              </PaginationButton>
+            );
+          })}
+          <PaginationPrevNextButton onClick={nextPage}>
+            Next
+          </PaginationPrevNextButton>
+        </PaginationBtnsContainer>
+      )}
     </>
   );
 };

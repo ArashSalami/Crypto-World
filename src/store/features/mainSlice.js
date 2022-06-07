@@ -71,7 +71,7 @@ const mainSlice = createSlice({
       state.isLoading = false;
       state.coins = action.payload;
       state.filteredCoins = [...action.payload];
-      let tempCoins = [...state.filteredCoins];
+      let tempCoins = [...action.payload];
 
       if (state.sort.name === "rank" && state.sort.value === true) {
         tempCoins = tempCoins.sort((a, b) => {
@@ -218,7 +218,6 @@ const mainSlice = createSlice({
       }
       if (state.sort.name === "priceChange" && state.sort.value === true) {
         state.filteredCoins = tempCoins.sort((a, b) => {
-          console.log(tempCoins);
           return a.price_change_percentage_24h - b.price_change_percentage_24h;
         });
       }
